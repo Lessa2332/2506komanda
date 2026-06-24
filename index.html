@@ -1,0 +1,201 @@
+```html
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обери що любиш</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+.container{
+    max-width:900px;
+    padding:20px;
+}
+
+h1{
+    font-size:3em;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    font-size:1.3em;
+    margin-bottom:30px;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.choice{
+    font-size:1.3em;
+    padding:20px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    background:white;
+    color:#333;
+    transition:.3s;
+}
+
+.choice:hover{
+    transform:scale(1.05);
+}
+
+#loading,
+#result{
+    display:none;
+}
+
+.spinner{
+    font-size:70px;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.team{
+    font-size:4em;
+    margin-bottom:20px;
+}
+
+.team-name{
+    font-size:3em;
+    font-weight:bold;
+}
+
+.counter{
+    position:fixed;
+    bottom:15px;
+    right:15px;
+    background:rgba(0,0,0,.25);
+    padding:10px 15px;
+    border-radius:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="game">
+
+<h1>🎉 Що ти любиш найбільше?</h1>
+<div class="subtitle">Обери один варіант 👇</div>
+
+<div class="buttons">
+<button class="choice" onclick="choose()">🍕 Піца</button>
+<button class="choice" onclick="choose()">🍦 Морозиво</button>
+<button class="choice" onclick="choose()">🎮 Ігри</button>
+<button class="choice" onclick="choose()">🐶 Собаки</button>
+<button class="choice" onclick="choose()">🐱 Коти</button>
+<button class="choice" onclick="choose()">⚽ Футбол</button>
+<button class="choice" onclick="choose()">🍉 Кавун</button>
+<button class="choice" onclick="choose()">🚀 Космос</button>
+</div>
+
+</div>
+
+<div id="loading">
+<div class="spinner">⚙️</div>
+<h2 id="loadingText"></h2>
+</div>
+
+<div id="result">
+<div class="team" id="emoji"></div>
+<div class="team-name" id="teamName"></div>
+<p>Знайди інших учасників своєї команди!</p>
+<br>
+<button class="choice" onclick="nextPlayer()">Наступний гравець</button>
+</div>
+
+<div class="counter">
+Гравець: <span id="playerNum">1</span>/18
+</div>
+
+</div>
+
+<script>
+
+let player = 1;
+
+const loadingMessages = [
+"🔍 Аналізуємо твій вибір...",
+"🧠 Шукаємо однодумців...",
+"✨ Підбираємо найкращу команду...",
+"🚀 Завантажуємо дружню енергію...",
+"🎯 Майже готово..."
+];
+
+function choose(){
+
+document.getElementById("game").style.display="none";
+document.getElementById("loading").style.display="block";
+
+document.getElementById("loadingText").innerText =
+loadingMessages[Math.floor(Math.random()*loadingMessages.length)];
+
+setTimeout(showTeam,2500);
+}
+
+function showTeam(){
+
+document.getElementById("loading").style.display="none";
+document.getElementById("result").style.display="block";
+
+if(player % 2 === 1){
+
+document.getElementById("emoji").innerHTML="🏴‍☠️";
+document.getElementById("teamName").innerHTML="ПІРАТИ";
+
+}else{
+
+document.getElementById("emoji").innerHTML="🚀";
+document.getElementById("teamName").innerHTML="КОСМОНАВТИ";
+
+}
+}
+
+function nextPlayer(){
+
+player++;
+
+if(player > 18){
+
+document.body.innerHTML = `
+<div style="text-align:center;color:white;">
+<h1>🎉 Формування команд завершено!</h1>
+<h2>🏴‍☠️ Пірати: 9</h2>
+<h2>🚀 Космонавти: 9</h2>
+</div>`;
+return;
+}
+
+document.getElementById("playerNum").innerText = player;
+
+document.getElementById("result").style.display="none";
+document.getElementById("game").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
+```
