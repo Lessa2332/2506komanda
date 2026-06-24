@@ -1,305 +1,248 @@
-```html
+```html id="olymp2030"
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Олімпійський відбір</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Olympic Teams 2030</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
 body{
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    margin:0;
+    font-family:Inter, sans-serif;
+    background: radial-gradient(circle at top, #0b1b3a, #050914);
     color:white;
-    min-height:100vh;
+    overflow:hidden;
+}
+
+/* GLASS CONTAINER */
+.app{
+    width:100%;
+    max-width:420px;
+    margin:auto;
+    padding:20px;
+    height:100vh;
     display:flex;
+    flex-direction:column;
     justify-content:center;
-    align-items:center;
+    gap:20px;
+}
+
+/* GLASS CARD */
+.card{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius:24px;
+    padding:20px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
     text-align:center;
 }
 
-.container{
-    width:100%;
-    max-width:1000px;
-    padding:20px;
-}
-
+/* TITLE */
 h1{
-    font-size:3rem;
-    margin-bottom:15px;
+    font-size:28px;
+    margin:0;
 }
 
 .subtitle{
-    font-size:1.3rem;
-    margin-bottom:30px;
+    opacity:0.8;
+    font-size:14px;
+    margin-top:8px;
 }
 
-.buttons{
+/* BUTTONS */
+.grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-.choice{
-    padding:18px;
+button{
+    padding:16px;
     border:none;
     border-radius:18px;
-    font-size:1.1rem;
+    font-size:15px;
+    font-weight:600;
     cursor:pointer;
-    background:white;
-    color:#222;
-    font-weight:bold;
-    transition:.25s;
+    color:#fff;
+    background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    transition:0.25s;
 }
 
-.choice:hover{
-    transform:scale(1.05);
+button:active{
+    transform:scale(0.96);
 }
 
-#loading,
-#result{
-    display:none;
+button:hover{
+    background:rgba(255,255,255,0.18);
 }
 
-.spinner{
-    font-size:70px;
-    animation:spin 1.2s linear infinite;
+/* GOLD BUTTON */
+.gold{
+    background:linear-gradient(135deg,#FFD700,#FFB300);
+    color:#1a1a1a;
+    font-weight:800;
+}
+
+/* LOADING */
+.loader{
+    font-size:60px;
+    animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-    from{transform:rotate(0deg);}
+    from{transform:rotate(0);}
     to{transform:rotate(360deg);}
 }
 
-.loadingText{
-    margin-top:20px;
-    font-size:1.4rem;
+.fade{
+    animation:fade 0.4s ease;
 }
 
-.teamEmoji{
-    font-size:6rem;
+@keyframes fade{
+    from{opacity:0; transform:scale(0.95);}
+    to{opacity:1; transform:scale(1);}
 }
 
-.teamName{
-    font-size:2.3rem;
-    font-weight:bold;
-    margin:20px 0;
+/* TEAM CARD */
+.team{
+    font-size:60px;
+    margin-bottom:10px;
 }
 
-.message{
-    font-size:1.2rem;
-    margin-bottom:25px;
+.big{
+    font-size:24px;
+    font-weight:800;
 }
 
-.nextBtn{
-    background:#ffd700;
-    color:black;
-    border:none;
-    border-radius:20px;
-    padding:15px 30px;
-    font-size:1.1rem;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.nextBtn:hover{
-    transform:scale(1.05);
-}
-
+/* COUNTER */
 .counter{
     position:fixed;
-    bottom:15px;
-    right:15px;
-    background:rgba(255,255,255,.15);
-    padding:10px 15px;
-    border-radius:15px;
-}
-
-.finishBtn{
-    position:fixed;
-    top:15px;
-    right:15px;
-    background:#ff9800;
-    color:white;
-    border:none;
-    padding:10px 15px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
+    bottom:10px;
+    right:10px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding:10px 14px;
+    border-radius:16px;
+    font-size:12px;
 }
 </style>
 </head>
+
 <body>
 
-<button class="finishBtn" onclick="finishGame()">
-🏁 Завершити
-</button>
+<div class="app">
 
-<div class="container">
+<!-- SCREEN 1 -->
+<div id="screen1" class="card fade">
+    <h1>🏅 Olympic Draft</h1>
+    <div class="subtitle">Оберіть свій вид спорту</div>
 
-<div id="game">
-
-<h1>🏅 Олімпійський відбір</h1>
-
-<div class="subtitle">
-Обери свій улюблений вид спорту
+    <div class="grid" style="margin-top:20px;">
+        <button onclick="pick()">⚽ Футбол</button>
+        <button onclick="pick()">🏀 Баскетбол</button>
+        <button onclick="pick()">🏊 Плавання</button>
+        <button onclick="pick()">🏐 Волейбол</button>
+        <button onclick="pick()">🏃 Біг</button>
+        <button onclick="pick()">🚴 Велоспорт</button>
+        <button onclick="pick()">🏓 Теніс</button>
+        <button onclick="pick()">🏸 Бадмінтон</button>
+    </div>
 </div>
 
-<div class="buttons">
-<button class="choice" onclick="choose()">⚽ Футбол</button>
-<button class="choice" onclick="choose()">🏀 Баскетбол</button>
-<button class="choice" onclick="choose()">🏐 Волейбол</button>
-<button class="choice" onclick="choose()">🏊 Плавання</button>
-<button class="choice" onclick="choose()">🏃 Біг</button>
-<button class="choice" onclick="choose()">🚴 Велоспорт</button>
-<button class="choice" onclick="choose()">🏓 Настільний теніс</button>
-<button class="choice" onclick="choose()">🏸 Бадмінтон</button>
+<!-- SCREEN 2 -->
+<div id="loading" class="card" style="display:none;">
+    <div class="loader">🏅</div>
+    <div id="loadingText" style="margin-top:15px; opacity:0.8;">
+        Аналіз...
+    </div>
 </div>
 
+<!-- SCREEN 3 -->
+<div id="result" class="card" style="display:none;">
+    <div class="team" id="teamIcon"></div>
+    <div class="big" id="teamName"></div>
+    <div style="opacity:0.8; margin-top:10px;">
+        Знайди свою команду 🔥
+    </div>
+
+    <button class="gold" style="margin-top:20px;" onclick="next()">
+        Наступний учасник
+    </button>
 </div>
-
-<div id="loading">
-<div class="spinner">🏅</div>
-<div class="loadingText" id="loadingText"></div>
-</div>
-
-<div id="result">
-
-<div class="teamEmoji" id="teamEmoji"></div>
-
-<div class="teamName" id="teamName"></div>
-
-<div class="message">
-Знайди інших учасників своєї команди!
-</div>
-
-<button class="nextBtn" onclick="nextPlayer()">
-Наступний учасник
-</button>
 
 </div>
 
 <div class="counter">
-Учасник: <span id="playerNum">1</span><br>
-🦅 <span id="eaglesCount">0</span> |
-🐆 <span id="panthersCount">0</span>
-</div>
-
+👤 <span id="p">1</span> |
+🦅 <span id="e">0</span> |
+🐆 <span id="p2">0</span>
 </div>
 
 <script>
 
 let player = 1;
-
 let eagles = 0;
 let panthers = 0;
 
-const messages = [
-"🔍 Аналізуємо спортивні вподобання...",
-"🏅 Формуємо олімпійську команду...",
-"⚡ Оцінюємо спортивний потенціал...",
-"🧠 Підбираємо найкращих напарників...",
-"🏆 Майже готово..."
+const texts = [
+"Аналізуємо біометрію...",
+"Завантаження олімпійського потенціалу...",
+"Сканування спортивного ДНК...",
+"Формуємо команду...",
+"Майже готово..."
 ];
 
-function choose(){
+function pick(){
 
-document.getElementById("game").style.display = "none";
-document.getElementById("loading").style.display = "block";
+document.getElementById('screen1').style.display='none';
+document.getElementById('loading').style.display='block';
 
-document.getElementById("loadingText").innerHTML =
-messages[Math.floor(Math.random()*messages.length)];
+document.getElementById('loadingText').innerText =
+texts[Math.floor(Math.random()*texts.length)];
 
-setTimeout(showTeam,2000);
+setTimeout(showTeam, 1500);
 }
 
 function showTeam(){
 
-document.getElementById("loading").style.display = "none";
-document.getElementById("result").style.display = "block";
+document.getElementById('loading').style.display='none';
+document.getElementById('result').style.display='block';
 
 let team;
 
-if(eagles < panthers){
-team = "eagle";
-}
-else if(panthers < eagles){
-team = "panther";
-}
-else{
-team = Math.random() < 0.5 ? "eagle" : "panther";
-}
+if(eagles < panthers) team = "e";
+else if(panthers < eagles) team = "p";
+else team = Math.random() < 0.5 ? "e" : "p";
 
-if(team === "eagle"){
-
+if(team === "e"){
 eagles++;
-
-document.getElementById("teamEmoji").innerHTML = "🦅";
-
-document.getElementById("teamName").innerHTML =
-"🏆 ОЛІМПІЙСЬКІ ОРЛИ";
-
+document.getElementById("teamIcon").innerText = "🦅";
+document.getElementById("teamName").innerText = "ОЛІМПІЙСЬКІ ОРЛИ";
 }else{
-
 panthers++;
-
-document.getElementById("teamEmoji").innerHTML = "🐆";
-
-document.getElementById("teamName").innerHTML =
-"🏆 ОЛІМПІЙСЬКІ ПАНТЕРИ";
-
+document.getElementById("teamIcon").innerText = "🐆";
+document.getElementById("teamName").innerText = "ОЛІМПІЙСЬКІ ПАНТЕРИ";
 }
 
-document.getElementById("eaglesCount").innerText = eagles;
-document.getElementById("panthersCount").innerText = panthers;
+document.getElementById("e").innerText = eagles;
+document.getElementById("p2").innerText = panthers;
 }
 
-function nextPlayer(){
+function next(){
 
 player++;
+document.getElementById("p").innerText = player;
 
-document.getElementById("playerNum").innerText = player;
-
-document.getElementById("result").style.display = "none";
-document.getElementById("game").style.display = "block";
-}
-
-function finishGame(){
-
-document.body.innerHTML = `
-<div style="
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-height:100vh;
-text-align:center;
-color:white;
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-">
-
-<h1>🏅 Команди сформовані!</h1>
-
-<h2 style="margin:20px;">
-🦅 Олімпійські Орли — ${eagles}
-</h2>
-
-<h2 style="margin:20px;">
-🐆 Олімпійські Пантери — ${panthers}
-</h2>
-
-<h3 style="margin-top:30px;">
-🏆 Успіхів на Олімпіаді!
-</h3>
-
-</div>
-`;
+document.getElementById('result').style.display='none';
+document.getElementById('screen1').style.display='block';
 }
 
 </script>
