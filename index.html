@@ -4,33 +4,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Обери що любиш</title>
+<title>Олімпійський відбір</title>
 
 <style>
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
     min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
     text-align:center;
-    color:white;
 }
 
 .container{
-    max-width:900px;
+    width:100%;
+    max-width:1000px;
     padding:20px;
 }
 
 h1{
-    font-size:3em;
-    margin-bottom:10px;
+    font-size:3rem;
+    margin-bottom:15px;
 }
 
 .subtitle{
-    font-size:1.3em;
+    font-size:1.3rem;
     margin-bottom:30px;
 }
 
@@ -41,14 +47,15 @@ h1{
 }
 
 .choice{
-    font-size:1.3em;
-    padding:20px;
+    padding:18px;
     border:none;
-    border-radius:20px;
+    border-radius:18px;
+    font-size:1.1rem;
     cursor:pointer;
     background:white;
-    color:#333;
-    transition:.3s;
+    color:#222;
+    font-weight:bold;
+    transition:.25s;
 }
 
 .choice:hover{
@@ -62,7 +69,7 @@ h1{
 
 .spinner{
     font-size:70px;
-    animation:spin 1s linear infinite;
+    animation:spin 1.2s linear infinite;
 }
 
 @keyframes spin{
@@ -70,64 +77,118 @@ h1{
     to{transform:rotate(360deg);}
 }
 
-.team{
-    font-size:4em;
-    margin-bottom:20px;
+.loadingText{
+    margin-top:20px;
+    font-size:1.4rem;
 }
 
-.team-name{
-    font-size:3em;
+.teamEmoji{
+    font-size:6rem;
+}
+
+.teamName{
+    font-size:2.3rem;
     font-weight:bold;
+    margin:20px 0;
+}
+
+.message{
+    font-size:1.2rem;
+    margin-bottom:25px;
+}
+
+.nextBtn{
+    background:#ffd700;
+    color:black;
+    border:none;
+    border-radius:20px;
+    padding:15px 30px;
+    font-size:1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.nextBtn:hover{
+    transform:scale(1.05);
 }
 
 .counter{
     position:fixed;
     bottom:15px;
     right:15px;
-    background:rgba(0,0,0,.25);
+    background:rgba(255,255,255,.15);
     padding:10px 15px;
     border-radius:15px;
 }
+
+.finishBtn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    background:#ff9800;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
 </style>
 </head>
-
 <body>
+
+<button class="finishBtn" onclick="finishGame()">
+🏁 Завершити
+</button>
 
 <div class="container">
 
 <div id="game">
 
-<h1>🎉 Що ти любиш найбільше?</h1>
-<div class="subtitle">Обери один варіант 👇</div>
+<h1>🏅 Олімпійський відбір</h1>
+
+<div class="subtitle">
+Обери свій улюблений вид спорту
+</div>
 
 <div class="buttons">
-<button class="choice" onclick="choose()">🍕 Піца</button>
-<button class="choice" onclick="choose()">🍦 Морозиво</button>
-<button class="choice" onclick="choose()">🎮 Ігри</button>
-<button class="choice" onclick="choose()">🐶 Собаки</button>
-<button class="choice" onclick="choose()">🐱 Коти</button>
 <button class="choice" onclick="choose()">⚽ Футбол</button>
-<button class="choice" onclick="choose()">🍉 Кавун</button>
-<button class="choice" onclick="choose()">🚀 Космос</button>
+<button class="choice" onclick="choose()">🏀 Баскетбол</button>
+<button class="choice" onclick="choose()">🏐 Волейбол</button>
+<button class="choice" onclick="choose()">🏊 Плавання</button>
+<button class="choice" onclick="choose()">🏃 Біг</button>
+<button class="choice" onclick="choose()">🚴 Велоспорт</button>
+<button class="choice" onclick="choose()">🏓 Настільний теніс</button>
+<button class="choice" onclick="choose()">🏸 Бадмінтон</button>
 </div>
 
 </div>
 
 <div id="loading">
-<div class="spinner">⚙️</div>
-<h2 id="loadingText"></h2>
+<div class="spinner">🏅</div>
+<div class="loadingText" id="loadingText"></div>
 </div>
 
 <div id="result">
-<div class="team" id="emoji"></div>
-<div class="team-name" id="teamName"></div>
-<p>Знайди інших учасників своєї команди!</p>
-<br>
-<button class="choice" onclick="nextPlayer()">Наступний гравець</button>
+
+<div class="teamEmoji" id="teamEmoji"></div>
+
+<div class="teamName" id="teamName"></div>
+
+<div class="message">
+Знайди інших учасників своєї команди!
+</div>
+
+<button class="nextBtn" onclick="nextPlayer()">
+Наступний учасник
+</button>
+
 </div>
 
 <div class="counter">
-Гравець: <span id="playerNum">1</span>/18
+Учасник: <span id="playerNum">1</span><br>
+🦅 <span id="eaglesCount">0</span> |
+🐆 <span id="panthersCount">0</span>
 </div>
 
 </div>
@@ -136,62 +197,109 @@ h1{
 
 let player = 1;
 
-const loadingMessages = [
-"🔍 Аналізуємо твій вибір...",
-"🧠 Шукаємо однодумців...",
-"✨ Підбираємо найкращу команду...",
-"🚀 Завантажуємо дружню енергію...",
-"🎯 Майже готово..."
+let eagles = 0;
+let panthers = 0;
+
+const messages = [
+"🔍 Аналізуємо спортивні вподобання...",
+"🏅 Формуємо олімпійську команду...",
+"⚡ Оцінюємо спортивний потенціал...",
+"🧠 Підбираємо найкращих напарників...",
+"🏆 Майже готово..."
 ];
 
 function choose(){
 
-document.getElementById("game").style.display="none";
-document.getElementById("loading").style.display="block";
+document.getElementById("game").style.display = "none";
+document.getElementById("loading").style.display = "block";
 
-document.getElementById("loadingText").innerText =
-loadingMessages[Math.floor(Math.random()*loadingMessages.length)];
+document.getElementById("loadingText").innerHTML =
+messages[Math.floor(Math.random()*messages.length)];
 
-setTimeout(showTeam,2500);
+setTimeout(showTeam,2000);
 }
 
 function showTeam(){
 
-document.getElementById("loading").style.display="none";
-document.getElementById("result").style.display="block";
+document.getElementById("loading").style.display = "none";
+document.getElementById("result").style.display = "block";
 
-if(player % 2 === 1){
+let team;
 
-document.getElementById("emoji").innerHTML="🏴‍☠️";
-document.getElementById("teamName").innerHTML="ПІРАТИ";
+if(eagles < panthers){
+team = "eagle";
+}
+else if(panthers < eagles){
+team = "panther";
+}
+else{
+team = Math.random() < 0.5 ? "eagle" : "panther";
+}
+
+if(team === "eagle"){
+
+eagles++;
+
+document.getElementById("teamEmoji").innerHTML = "🦅";
+
+document.getElementById("teamName").innerHTML =
+"🏆 ОЛІМПІЙСЬКІ ОРЛИ";
 
 }else{
 
-document.getElementById("emoji").innerHTML="🚀";
-document.getElementById("teamName").innerHTML="КОСМОНАВТИ";
+panthers++;
+
+document.getElementById("teamEmoji").innerHTML = "🐆";
+
+document.getElementById("teamName").innerHTML =
+"🏆 ОЛІМПІЙСЬКІ ПАНТЕРИ";
 
 }
+
+document.getElementById("eaglesCount").innerText = eagles;
+document.getElementById("panthersCount").innerText = panthers;
 }
 
 function nextPlayer(){
 
 player++;
 
-if(player > 18){
-
-document.body.innerHTML = `
-<div style="text-align:center;color:white;">
-<h1>🎉 Формування команд завершено!</h1>
-<h2>🏴‍☠️ Пірати: 9</h2>
-<h2>🚀 Космонавти: 9</h2>
-</div>`;
-return;
-}
-
 document.getElementById("playerNum").innerText = player;
 
-document.getElementById("result").style.display="none";
-document.getElementById("game").style.display="block";
+document.getElementById("result").style.display = "none";
+document.getElementById("game").style.display = "block";
+}
+
+function finishGame(){
+
+document.body.innerHTML = `
+<div style="
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+color:white;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+">
+
+<h1>🏅 Команди сформовані!</h1>
+
+<h2 style="margin:20px;">
+🦅 Олімпійські Орли — ${eagles}
+</h2>
+
+<h2 style="margin:20px;">
+🐆 Олімпійські Пантери — ${panthers}
+</h2>
+
+<h3 style="margin-top:30px;">
+🏆 Успіхів на Олімпіаді!
+</h3>
+
+</div>
+`;
 }
 
 </script>
